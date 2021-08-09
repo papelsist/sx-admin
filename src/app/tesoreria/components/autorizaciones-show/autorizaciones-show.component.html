@@ -1,0 +1,89 @@
+<mat-card flex="50" >
+
+  <ng-container *tdLoading="let sol until solicitud$ | async; color:'accent'">
+
+  <mat-card-title>Autorización de deposito: {{sol?.folio}}</mat-card-title>
+  <mat-card-subtitle>{{sol?.sucursal?.nombre}} / {{sol?.fecha | date: 'dd/MM/yyyy'}}</mat-card-subtitle>
+  <mat-divider></mat-divider>
+  <mat-card-content> 
+      <mat-list dense>
+          <h3 matSubheader>Metadata</h3>
+          <mat-list-item>
+            <mat-icon matListAvatar>account_box</mat-icon>
+            <h4 matLine>{{sol?.cliente?.nombre}}</h4>
+            <p matLine>Cliente</p>
+          </mat-list-item>
+          <mat-divider matInset></mat-divider>
+          <mat-list-item>
+            <mat-icon matListAvatar>description</mat-icon>
+            <span matLine layout>
+              <span flex="30">
+                <span class="pad-right">Cheque: </span>
+                <span>{{sol?.cheque  | currency: 'USD': 1.2-2 }}</span>
+              </span>
+              <span flex="30">
+                <span class="pad-left pad-right">Efectivo: </span>
+                <span>{{sol?.efectivo  | currency: 'USD': 1.2-2 }}</span>
+              </span>
+              <span flex="30">
+                  <span class="pad-left pad-right">Transferencia: </span>
+                  <span>{{sol?.transferencia  | currency: 'USD': 1.2-2 }}</span>
+              </span>
+              <span flex="30">
+                <span class="pad-left pad-right">Total: </span>
+                <span>{{sol?.total  | currency: 'USD': 1.2-2 }}</span>
+              </span>
+            </span>
+          </mat-list-item>
+          <mat-divider matInset></mat-divider>
+          <mat-list-item>
+            <mat-icon matListAvatar>account_balance</mat-icon>
+            <h4 matLine>{{sol?.banco?.nombre}}</h4>
+            <p matLine>Banco origen</p>
+          </mat-list-item>
+          <mat-divider matInset></mat-divider>
+          <mat-list-item>
+            <mat-icon matListAvatar>account_balance</mat-icon>
+            <h4 matLine>{{sol?.cuenta?.descripcion}}</h4>
+            <p matLine>Banco destino</p>
+          </mat-list-item>
+          <mat-divider matInset></mat-divider>
+          <mat-list-item>
+            <mat-icon matListAvatar>vpn_key</mat-icon>
+            <h4 matLine>{{sol?.referencia}}</h4>
+            <p matLine>Referencia bancaria</p>
+          </mat-list-item>
+          <mat-divider matInset></mat-divider>
+          <!-- <mat-divider></mat-divider> -->
+          <h3 matSubheader>Bitácora</h3>
+          <mat-list-item>
+            <mat-icon matListAvatar>today</mat-icon>
+            <h4 matLine>{{sol?.fechaDeposito | date: 'dd/MM/yyyy'}}</h4>
+            <p matLine>Fecha deposito</p>
+          </mat-list-item>
+          <mat-divider matInset></mat-divider>
+          <mat-list-item>
+            <mat-icon matListAvatar>account_circle</mat-icon>
+            <h4 matLine>{{sol?.updateUser}}</h4>
+            <p matLine>Usuario</p>
+          </mat-list-item>
+          <mat-divider matInset></mat-divider>
+          <mat-list-item>
+            <mat-icon matListAvatar>info</mat-icon>
+            <h4 matLine>{{sol?.comentario}}</h4>
+            <p matLine>Último comentario</p>
+          </mat-list-item>
+        </mat-list>
+  </mat-card-content>
+  
+  <mat-divider></mat-divider>
+  <mat-card-actions>
+    <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+    <a [routerLink]="['/tesoreria/autorizaciones']" mat-button class="text-upper">Cancelar</a>
+    <button mat-button color="accent" (click)="rechazar()" class="text-upper">Rechazar</button>
+    <button mat-button color="primary" (click)="autorizar()" class="text-upper">Autorizar</button>
+    </ng-template>
+  </mat-card-actions>
+  </ng-container>
+</mat-card>
+

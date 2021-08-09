@@ -1,0 +1,71 @@
+<mat-card>
+
+  <mat-card-title-group layout>
+    <mat-card-title>Solicitud de depósitos</mat-card-title>
+    <span flex></span>
+    <span class="pad">{{cartera}}</span>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div layout = "column" class="pad-left pad-right">
+      <sx-cliente-field formControlName="cliente" flex></sx-cliente-field>
+
+      <div layout flex>
+        <sx-banco-field formControlName="banco" flex class="pad-right"></sx-banco-field>
+        <sx-cuenta-banco-field formControlName="cuenta" flex></sx-cuenta-banco-field>
+      </div>
+      <div layout flex>
+        <mat-form-field class="pad-right" flex>
+          <input matInput [matDatepicker]="picker" placeholder="Fecha deposito" formControlName="fechaDeposito">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field flex class="pad-left">
+          <input type="text" matInput formControlName="referencia" placeholder="Referencia">
+        </mat-form-field>
+
+      </div>
+
+      <div layout flex  >
+        <mat-form-field flex class="pad-right">
+          <input type="text" matInput formControlName="cheque" placeholder="Cheque" sxOnlyNumbers>
+        </mat-form-field>
+
+        <mat-form-field class="pad-right">
+          <input type="text" matInput formControlName="efectivo" sxOnlyNumbers
+            placeholder="Efectivo">
+        </mat-form-field>
+
+        <mat-form-field flex class="pad-right">
+          <input type="text" matInput formControlName="transferencia" sxOnlyNumbers
+            placeholder="Transferencia">
+        </mat-form-field>
+
+      </div>
+
+      <div layout >
+          <mat-form-field flex>
+              <textarea matInput placeholder="Comentario"  formControlName="comentario"
+                matTextareaAutosize matAutosizeMinRows="1">
+              </textarea>
+            </mat-form-field>
+      </div>
+
+    </div>
+
+    <!-- <td-message label="Error!" sublabel="Digite el importe del deposito" color="warn"
+      *ngIf="form.getError('totalInvalido')"
+      icon="error">
+    </td-message> -->
+    <mat-card-actions>
+      <button type="button" mat-button (click)="cancel.emit('cancel')"> Cancelar</button>
+      <button mat-button color="primary" *ngIf="isEditable()"
+        [disabled]="form.invalid || form.pristine">Salvar
+      </button>
+    </mat-card-actions>
+
+  </form>
+
+</mat-card>

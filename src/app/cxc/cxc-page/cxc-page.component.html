@@ -1,0 +1,56 @@
+<td-layout-nav-list #navList
+color="primary"
+[opened]="media.registerQuery('gt-sm') | async"
+[mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
+[sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '340px' : '100%'"
+navigationRoute="/cxc">
+
+<div td-sidenav-toolbar-content layout="row" layout-align="start center">
+  <button mat-icon-button tdLayoutToggle td-menu-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span [routerLink]="['/cxc']" class="cursor-pointer">Cuentas por cobrar</span>
+</div>
+
+
+
+<div td-toolbar-content layout="row" layout-align="start center" flex>
+  <button mat-icon-button tdLayoutNavListOpen [hideWhenOpened]="true">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span >{{cartera.descripcion}}</span>
+  <span flex></span>
+  <span>SX Admin</span>
+  <a mat-icon-button matTooltip="Pendiente" >
+    <mat-icon>chrome_reader_mode</mat-icon>
+  </a>
+  <a mat-icon-button matTooltip="Pendiente" >
+    <mat-icon>settings</mat-icon>
+  </a>
+</div>
+
+<mat-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
+
+  <ng-template let-item let-last="last" ngFor [ngForOf]="navigation">
+    <a mat-list-item
+       [routerLinkActive]="['active']"
+       [routerLink]="item.path"
+       [queryParams]="item.params"
+       [routerLinkActiveOptions]="{exact:false}">
+      <mat-icon matListAvatar>{{item.icon}}</mat-icon>
+      <h3 matLine> {{item.title}} </h3>
+      <p matLine> {{item.description}} </p>
+    </a>
+    <mat-divider matInset *ngIf="!last"></mat-divider>
+  </ng-template>
+</mat-nav-list>
+
+<div class="">
+  <router-outlet></router-outlet>
+</div>
+
+<td-layout-footer color="primary">
+  <sx-page-footer></sx-page-footer>
+</td-layout-footer>
+
+</td-layout-nav-list>

@@ -1,0 +1,54 @@
+<td-layout-nav #navList
+  color="primary"
+  [toolbarTitle]="(media.registerQuery('gt-xs') | async) ? 'Cliente Dashboard' : ''"
+  navigationRoute="/">
+
+  <button mat-icon-button td-menu-button tdLayoutToggle>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
+    <span flex ></span>
+    <sx-cliente-notifications></sx-cliente-notifications>
+    <button type="button" mat-icon-button (click)="cambiarCliente()"><mat-icon>person</mat-icon></button>
+    <sx-cliente-theme></sx-cliente-theme>
+  </div>
+
+  <td-layout-manage-list #manageList
+    [opened]="media.registerQuery('gt-sm') | async"
+    [mode]="(media.registerQuery('gt-sm') | async) ? 'side' :  'over'"
+    [sidenavWidth]="!miniNav ? '257px' : '64px'">
+    
+    <div td-sidenav-content layout="column" layout-fill>
+
+      <sx-cliente-toolbar [miniNav]="miniNav"></sx-cliente-toolbar>
+      <sx-cliente-navigation [miniNav]="miniNav" [media]="media"></sx-cliente-navigation>
+    </div>
+
+    <mat-sidenav-container flex>
+      <mat-sidenav #sidenav align="end">
+        <div layout="column" layout-fill>
+          <mat-toolbar>Configuración</mat-toolbar>
+          <div flex class="mat-content">
+              <pre>{{cliente | json}}</pre>
+          </div>
+        </div>
+      </mat-sidenav>
+
+      <td-layout-nav color="none">
+        <div td-toolbar-content flex layout="row" layout-align="start center">
+          <button mat-icon-button tdLayoutManageListToggle>
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span hide-xs>Cliente: {{cliente.nombre}}</span>
+          <span flex></span>
+            <button matTooltip="Dashboard Settings" matTooltipPosition="before" type="button" mat-icon-button (click)="sidenav.open()">
+            <mat-icon>settings</mat-icon>
+          </button>
+        </div>
+        <router-outlet></router-outlet>    
+
+      </td-layout-nav>
+    </mat-sidenav-container>
+
+  </td-layout-manage-list>
+</td-layout-nav>

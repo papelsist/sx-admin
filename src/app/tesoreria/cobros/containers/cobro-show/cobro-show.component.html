@@ -1,0 +1,49 @@
+<div layout layout-align="center">
+  <mat-card flex="80">
+    <mat-card-title>{{cobro.cliente.nombre}}</mat-card-title>
+    <mat-card-subtitle>Registro de cobro fecha: {{cobro.fecha | date: 'dd/MM/yyyy'}}</mat-card-subtitle>
+
+    <mat-divider></mat-divider>
+    <mat-card-content >
+      <div layout>
+        <mat-form-field flex>
+          <input matInput placeholder="Tipo" [disabled]="true" value="{{cobro.tipo}}">
+        </mat-form-field>
+        <mat-form-field flex class="pad-left pad-right">
+          <input matInput placeholder="Forma de pago" [disabled]="true" value="{{cobro.formaDePago}}">
+        </mat-form-field>
+        <mat-form-field flex>
+          <input matInput placeholder="Referencia" [disabled]="true" value="{{cobro.referencia}}">
+        </mat-form-field>
+      </div>
+
+      <div layout>
+
+        <mat-form-field flex>
+          <input matInput placeholder="Importe" [disabled]="true" value="{{cobro.importe | currency}}">
+        </mat-form-field>
+        <mat-form-field class="pad-left pad-right" flex>
+            <input matInput placeholder="Aplicado" [disabled]="true" value="{{cobro.aplicado | currency}}">
+          </mat-form-field>
+        <mat-form-field flex>
+          <input matInput placeholder="Disponible" [disabled]="true" value="{{cobro.disponible | currency}}">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Comentario" value="{{cobro.comentario}}" [disabled]="true">
+        </mat-form-field>
+      </div>
+
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions *tdLoading="'processing'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+      <button type="button" mat-button (click)="cancel()"> Cancelar</button>
+      <button tupe="button" mat-button color="warn" *ngIf="cobro.aplicado == 0.0"
+        (click)="delete()">
+        Eliminar <mat-icon >delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

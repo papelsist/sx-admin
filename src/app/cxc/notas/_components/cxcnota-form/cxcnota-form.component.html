@@ -1,0 +1,96 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate layout >
+  
+  <mat-card tabindex="0" flex = "50" >
+    <div layout="row" layout-align="start center" class="pad" >
+      <span  class="push-left-sm">
+        <span class="mat-title">Alta de nota de credito</span>
+      </span>
+      <span flex></span>
+      <span >({{fecha | date:'dd/MM/yyyy'}})</span>
+      <span class="pad-left tc-indigo-800" >Cartera: {{cartera}}</span>
+    </div>
+    
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div layout >
+        <sx-cliente-field formControlName="cliente" flex></sx-cliente-field>
+      </div>
+      <div layout >
+        <mat-form-field class="pad-right" flex="60">
+          <mat-select placeholder="Tipo" formControlName="tipo">
+            <mat-option *ngFor="let tipo of [{descripcion:'BONIFICACION', clave: 'BON'},{clave: 'DEV', descripcion:'DEVOLUCION'}]" 
+              [value]="tipo.clave">
+              {{ tipo.descripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="pad-right" flex="60">
+          <mat-select placeholder="Cálculo" formControlName="tipoDeCalculo">
+            <mat-option *ngFor="let c of ['PORCENTAJE','PRORRATEAR']" 
+              [value]="c">
+              {{ c }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-checkbox formControlName="sinReferencia" class="pad-right">
+          Sin referencia
+        </mat-checkbox>
+      </div>
+
+      <div layout>
+
+        <mat-form-field class="pad-right" flex>
+          <mat-select placeholder="Moneda" formControlName="moneda">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let moneda of ['MXN','USD']"  [value]="moneda">
+              {{ moneda }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field flex>
+          <input matInput placeholder="T.C" formControlName="tipoDeCambio">
+        </mat-form-field>
+      </div>
+
+      <div layout>
+          <mat-form-field flex>
+              <input matInput placeholder="Importe" formControlName="importe"
+                currencyMask  >
+              <mat-error>Importe invalido</mat-error>
+            </mat-form-field>
+      
+            <mat-form-field class="pad-left" flex>
+              <input matInput placeholder="Descuento" formControlName="descuento" >
+              <mat-error> Descuento incorrecto</mat-error>
+              <mat-hint align="end">(De 1 a 90%)</mat-hint>
+            </mat-form-field>
+      </div>
+
+      <div layout>
+        <mat-form-field flex>
+          <input matInput placeholder="Comentario" formControlName="comentario">
+        </mat-form-field>
+      </div>
+      
+    </mat-card-content>
+
+    <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="circular">
+    <mat-card-actions>
+      <button mat-button type="submit" color="primary" 
+        [disabled]="form.invalid || form.pristine">
+        <mat-icon>save</mat-icon> SALVAR
+      </button>
+      <button mat-button type="button" (click)="cancelar.emit()">
+        <mat-icon>back</mat-icon> CANCELAR
+      </button>
+    </mat-card-actions>
+    </ng-template>
+  </mat-card>
+  
+  <sx-cxcfacturas-grid flex ="50" [parent]="form" *ngIf="tipo == 'BON'"></sx-cxcfacturas-grid>
+  <sx-rmd-panel flex="50" [parent]="form" *ngIf="tipo == 'DEV'"></sx-rmd-panel>
+  
+</form>

@@ -1,0 +1,19 @@
+<!-- <h3 mat-dialog-title>Selección de RMD</h3> -->
+<div layout mat-dialog-title>
+  <mat-form-field [style.width.%]="100">
+    <input type="text" matInput placeholder="Digite el folio del RMD" [formControl]="control">
+    <mat-icon matSuffix >search</mat-icon>
+  </mat-form-field>
+</div>
+<td-data-table 
+  [columns]="columns" [data]="rows" 
+  [style.height.px]="350"
+  [selectable]="true"
+  [multiple]="false"
+  [(ngModel)]="selectedRows">
+</td-data-table>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="selectedRows[0]" [disabled]="selectedRows.length === 0">Aceptar</button>
+</mat-dialog-actions>

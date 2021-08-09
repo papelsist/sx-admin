@@ -1,0 +1,53 @@
+<mat-card [style.height.%]="100">
+
+  <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <span  class="push-left-sm">
+      <span class="mat-title">RMD: {{devolucion?.documento}}</span>
+    </span>
+    <span flex></span>
+    <button mat-icon-button (click)="buscarRmd()"> <mat-icon>add</mat-icon></button>
+  </div>
+  <mat-divider></mat-divider>
+  <ng-container *ngIf="devolucion">
+    <mat-list>
+      <h3 matSubheader>Devolución</h3>
+      <mat-list-item>
+        <mat-icon matListAvatar>account_box</mat-icon>
+        <h4 matLine>{{devolucion.venta.cliente.nombre}}</h4>
+      </mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+      <mat-list-item>
+        <mat-icon matListAvatar>description</mat-icon>
+        <h4 matLine>{{devolucion.sucursal.nombre}} / {{devolucion.fecha | date: 'dd/MM/yyyy'}}</h4>
+      </mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+      <mat-list-item>
+        <mat-icon matListAvatar>description</mat-icon>
+        <h4 matLine>Total: {{devolucion.total | currency: 'USD': 1.2-2}}</h4>
+      </mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+      <mat-list-item>
+        <h4 matLine>Usuario: {{devolucion.updateUser}}</h4>
+      </mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+
+      <h3 matSubheader>Venta</h3>
+      <mat-list-item>
+        <h4 matLine>Factura: {{devolucion.venta.tipo}} - {{devolucion.factura}}</h4>
+      </mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+      <mat-list-item>
+        <h4 matLine>Fecha : {{devolucion.venta.fecha | date: 'dd/MM/yyyy'}}</h4>
+        </mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+
+    </mat-list>
+    
+  </ng-container>
+ 
+  <td-message label="Atención!" 
+        *ngIf="!isValid" 
+        sublabel="Debe registrar el RMD para la devolución" 
+        color="primary"  icon="warning">
+  </td-message>
+</mat-card>

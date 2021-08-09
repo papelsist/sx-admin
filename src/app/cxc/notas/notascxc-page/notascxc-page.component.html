@@ -1,0 +1,19 @@
+<mat-card> 
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link dynamicHeight="true"
+        [routerLink]="['devoluciones']"
+        routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">
+      Devoluciones ({{cartera.tipo }})
+    </a>
+    <a mat-tab-link 
+        [routerLink]="['bonificaciones']"
+        routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">
+      Bonificaciones ({{cartera.tipo }})
+    </a>
+  </nav>
+  <div >
+      <router-outlet></router-outlet>
+  </div>
+</mat-card>

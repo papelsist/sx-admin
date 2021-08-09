@@ -1,0 +1,60 @@
+<mat-card layout>
+  <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <span class="push-left-sm">
+      <span class="mat-title">Solicitudes de depositos CANCELADAS</span>
+    </span>
+    <span flex></span>
+    <span>
+      <button mat-icon-button (click)="load()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+      </mat-menu>
+    </span>
+  </div>
+  <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <td-search-input placeholder="Sucursal" showUnderline="true" (searchDebounce)="searchSucursal($event)" flex class="pad-right"></td-search-input>
+    <td-search-input placeholder="Folio" showUnderline="true" (searchDebounce)="searchFolio($event)" class="pad-right"></td-search-input>
+    <td-search-input placeholder="Cliente" showUnderline="true" (searchDebounce)="searchCliente($event)" class="pad-right"></td-search-input>
+    <td-search-input type="number" placeholder="Total" showUnderline="true" (searchDebounce)="searchTotal($event)" class="pad-right"></td-search-input>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Fecha deposito" (dateChange)="searchFecha($event.value)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear" flex>
+    <div layout>
+      <td-data-table flex [data]="solicitudes$ | async" [columns]="columns" [style.width.px]="200">
+
+        <ng-template tdDataTableTemplate="total" let-value="value">
+          <span>{{value | currency: 'USD': 1.2-2 }}</span>
+        </ng-template>
+        <ng-template tdDataTableTemplate="cancelacion" let-value="value">
+          <span>{{value | date: 'dd/MM/yyyy' }}</span>
+        </ng-template>
+
+        <ng-template tdDataTableTemplate="sucursal" let-value="value" let-row="row">
+          <span class="text-md" layout="column">
+            <span>{{row.sucursal.nombre}}</span>
+          </span>
+        </ng-template>
+
+        <ng-template tdDataTableTemplate="fechaDeposito" let-value="value">
+          <span>{{value | date: 'dd/MM/yyyy' }}</span>
+        </ng-template>
+        <ng-template tdDataTableTemplate="cobro.dateCreated" let-value="value">
+          <span>{{value | date: 'dd/MM/yy HH:mm' }}</span>
+        </ng-template>
+        <ng-template tdDataTableTemplate="cobro.formaDePago" let-value="value">
+          <abbr title="{{value}}">{{getFormaDePago(value)}}</abbr>
+        </ng-template>
+      </td-data-table>
+    </div>
+  </ng-template>
+
+  <mat-divider></mat-divider>
+</mat-card>

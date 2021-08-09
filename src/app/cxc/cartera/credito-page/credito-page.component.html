@@ -1,0 +1,33 @@
+<mat-card *tdLoading="let items until clientes$ | async; type: 'circle'; color: 'accent' strategy: 'overlay'">
+  
+    <div 
+      layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+      <span  class="push-left-sm">
+        <span class="mat-title">Cartera de clientes (CRE)</span>
+      </span>
+      <span flex></span>
+      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" 
+        (searchDebounce)="search($event)" [(ngModel)] = "term"
+        flex>
+      </td-search-box>
+      <span>
+        <button mat-icon-button [matMenuTriggerFor]="toolbarMenu"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #toolbarMenu="matMenu">
+          <button mat-menu-item (click)="load()">
+            <mat-icon>refresh</mat-icon> Refrescar
+          </button>
+        </mat-menu>
+      </span>
+    </div>
+    <mat-divider></mat-divider>
+
+    <ng-container *ngIf="clientes$ | async as clientes">
+        <td-data-table 
+          [columns]="columns" 
+          [data]="clientes" [style.height.px]="500">
+          <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
+            <a class="tc-indigo-800" [routerLink] = "['/cxc/cliente', row.id]">{{value}}</a>
+          </ng-template>
+        </td-data-table>
+      </ng-container>
+    </mat-card>

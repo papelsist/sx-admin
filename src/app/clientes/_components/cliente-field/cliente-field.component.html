@@ -1,0 +1,19 @@
+<mat-form-field  class="fill">
+  <input type="text" matInput [formControl]="searchControl" (blur)="onBlur()"
+      [placeholder]="placeholder" #inputField
+      [required]="required"
+      [matAutocomplete]="auto"
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <mat-icon matSuffix>search</mat-icon>
+  <mat-error>
+    Seleccione un cliente
+  </mat-error>
+</mat-form-field>
+
+<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="select($event)">
+  <mat-option *ngFor="let cliente of clientes$ | async " [value]="cliente"
+    [ngClass]="{'tc-red-800': !cliente.activo}">
+      {{cliente.nombre}} ({{cliente.rfc}}) - {{cliente.credito ? 'Credito': 'Contado' }}
+  </mat-option>
+</mat-autocomplete>
+

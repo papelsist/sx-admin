@@ -1,0 +1,22 @@
+<mat-card >
+  <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <span  class="push-left-sm">
+      <span class="mat-title">Facturas</span>
+    </span>
+    <span flex></span>
+    <button mat-icon-button> <mat-icon>add</mat-icon></button>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+      <td-data-table
+      #dataTable
+      [data]="facturas"
+      [columns]="columns">
+    </td-data-table>
+  </mat-card-content>
+  <td-message label="Atención!" 
+          *ngIf="parent.hasError('requiereFacturas')" 
+          sublabel="Registre la  o las facturas origen del egreso " 
+          color="primary"  icon="warning">
+  </td-message>
+</mat-card>

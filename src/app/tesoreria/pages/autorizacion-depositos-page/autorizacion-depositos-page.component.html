@@ -1,0 +1,86 @@
+<div tdMediaToggle="gt-xs" [mediaClasses]="['push-sm']" class="page" layout>
+  <mat-card flex>
+    <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+      <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+        <span class="mat-title">Solicitudes pendientes de autorizar</span>
+      </span>
+      <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" (searchDebounce)="search($event)"
+        flex>
+      </td-search-box>
+      <mat-checkbox [(ngModel)]="watch">Automático</mat-checkbox>
+      <span>
+        <button mat-icon-button (click)="load()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #toolbarMenu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </button>
+        </mat-menu>
+      </span>
+    </div>
+
+    <mat-divider></mat-divider>
+
+
+
+    <mat-list class="pull-top">
+      <mat-list-item>
+        <mat-icon matListAvatar>apps</mat-icon>
+        <span flex="30" class="mat-body-1 tc-grey-500">Solicito</span>
+        <h3 matLine>Cliente</h3>
+        <span flex></span>
+        <span flex="30" class="pad-left mat-body-1 tc-grey-500">F.Deposito</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay" tdLoadingType="linear">
+        <ng-container *ngIf="pendientes">
+
+          <td-virtual-scroll-container #virtualScroll [style.height.px]="600" [data]="pendientes">
+            <ng-template let-i="row" let-last="last" tdVirtualScrollRow let-index="index">
+
+              <mat-list-item #list>
+                <div matLine>
+                  <!-- <a [routerLink]="['show', i.id]" mat-button="" flex="30">
+                  <mat-icon >dns</mat-icon>
+                  <span>{{i.folio}}</span>
+                </a> -->
+                  <a (click)="autorizar(i, index)" mat-button flex="30">
+                    <mat-icon>dns</mat-icon>
+                    <span>{{i.folio}}</span>
+                  </a>
+                  <span flex="20">{{i.sucursal.nombre}}</span>
+                  <span flex="50">{{i.cliente.nombre}}</span>
+
+                  <!-- <h4 > {{i.cliente.nombre}} </h4> -->
+                </div>
+
+                <p matLine layout>
+                  <!-- <span>{{i.sucursal.nombre}}</span> -->
+                  <span flex></span>
+                  <span>Referencia:
+                    <span class="tc-indigo-800">{{i.referencia}}</span>
+                  </span>
+                </p>
+                <span flex></span>
+
+                <span flex="30" class="mat-body-1 tc-grey-500">{{i.updateUser}}</span>
+                <span flex="30" class="mat-body-1 tc-indigo-500">{{i.dateCreated | date: 'dd/MM/yyyy hh:mm'}}</span>
+                <span flex="30" class="mat-body-1 tc-indigo-500">{{ i.total | currency: 'USD': 1.2-2 }}</span>
+              </mat-list-item>
+
+            </ng-template>
+          </td-virtual-scroll-container>
+
+          <mat-divider *ngIf="!last" matInset></mat-divider>
+        </ng-container>
+      </ng-template>
+
+    </mat-list>
+
+  </mat-card>
+</div>

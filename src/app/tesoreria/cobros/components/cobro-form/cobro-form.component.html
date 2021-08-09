@@ -1,0 +1,57 @@
+<mat-card>
+  <mat-card-title-group layout>
+    <mat-card-title>Registro de cobro
+      <span class="pad-right pad-left" *ngIf="cobro" class="tc-indigo-800">
+      </span>
+      <span class="pad-right" *ngIf="cobro">({{cobro.fecha | date: 'dd/MM/yyyy'}})</span>
+    </mat-card-title>
+    <span flex></span>
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div layout = "column" class="pad-left pad-right">
+      <sx-cliente-field formControlName="cliente" flex></sx-cliente-field>
+      <div layout flex>
+        <mat-form-field flex>
+          <input matInput [matDatepicker]="datePicker"
+            placeholder="Choose a date" formControlName="fecha">
+          <mat-datepicker #datePicker></mat-datepicker>
+          <mat-datepicker-toggle [for]="datePicker" matSuffix></mat-datepicker-toggle>
+        </mat-form-field>
+
+        <mat-form-field flex class="pad-left pad-right">
+          <mat-select placeholder="Fomra de pago" formControlName="formaDePago" class="fill">
+            <mat-option *ngFor="let tipo of ['EFECTIVO', 'CHEQUE', 'TRANSFERENCIA', 'TARJETA_DEBITO', 'TARJETA_CREDITO']"
+              [value]="tipo">
+              {{tipo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field flex  [style.width.px]="200">
+          <input type="number" formControlName="importe" sxOnlyNumbers
+            placeholder="Importe" matInput>
+        </mat-form-field>
+
+      </div>
+      <div layout >
+        <mat-form-field flex>
+          <textarea matInput placeholder="Comentario"  formControlName="comentario"
+            matTextareaAutosize matAutosizeMinRows="1">
+          </textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+
+    <mat-card-actions>
+      <button type="button"
+        mat-button (click)="cancel.emit('cancel')"> Cancelar</button>
+      <button mat-button color="primary" *ngIf="isEditable()"
+        [disabled]="form.invalid || form.pristine">Salvar
+      </button>
+    </mat-card-actions>
+  </form>
+
+</mat-card>

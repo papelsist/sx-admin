@@ -1,0 +1,17 @@
+<td-data-table
+#dataTable
+[data]="data"
+[columns]="columns"
+[sortable]="false">
+<ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
+  <a  [routerLink]="['show', row.id]" mat-icon-button color="accent">
+    <mat-icon>info</mat-icon>
+  </a>
+</ng-template>
+<ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+  <span >{{value | currency: 'USD': 1.2-2}}</span>
+</ng-template>
+<ng-template tdDataTableTemplate="disponible" let-value="value" let-row="row">
+  <span class="tc-indigo-800">{{value | currency: 'USD': 1.2-2}}</span>
+</ng-template>
+</td-data-table>

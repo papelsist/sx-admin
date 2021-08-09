@@ -1,0 +1,77 @@
+<ng-container *ngIf="nota"> 
+  
+  <mat-card-title class="tc-indigo-800">
+    <span>{{nota.tipo}}: {{nota.folio}}</span>
+    <span>({{nota.nombre}})</span>
+  </mat-card-title>
+  
+  <mat-divider></mat-divider>
+  <div layout>
+
+    <mat-list flex>
+      <mat-list-item>Fecha: {{nota.fecha | date:'dd/MM/yyyy'}}</mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+      <mat-list-item>Cartera: {{nota.tipoCartera}}</mat-list-item>
+      <mat-list-item>Total: {{nota.total | currency}}</mat-list-item>
+      <mat-list-item>
+        Disponible: {{nota.disponible | currency}}
+      </mat-list-item>
+      <mat-list-item>UUID: {{nota?.cfdi?.uuid}}</mat-list-item>
+      <mat-divider [inset]="true"></mat-divider>
+    </mat-list>
+
+    <div flex>
+        <td-expansion-panel-group>
+          <td-expansion-panel label="Conceptos">
+            <div class="md-padding">
+              <h3 class="mat-subheading-2">Conceptos</h3>
+            </div>
+          </td-expansion-panel>
+          <td-expansion-panel label="Facturas">
+            <div class="md-padding">
+              <h3 class="mat-subheading-2">Facturas</h3>
+            </div>
+          </td-expansion-panel>
+          <td-expansion-panel label="Devolución">
+            <div class="md-padding">
+              <h3 class="mat-subheading-2">RMD</h3>
+            </div>
+          </td-expansion-panel>
+          <td-expansion-panel label="Aplicaciones">
+            <div class="md-padding">
+              
+            </div>
+          </td-expansion-panel>
+        </td-expansion-panel-group>
+    </div>
+    
+    
+  </div>
+
+  <mat-card-actions *tdLoading="'procesando'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+    <button mat-button *ngIf="!nota.cfdi && !nota?.cfdi?.uuid"
+      (click)="timbrar(nota)" color="accent"> 
+      Timbrar <mat-icon>notifications_active</mat-icon>
+    </button>
+    <button mat-button type="button" (click)="print(nota)"> 
+      Imprimir <mat-icon>print</mat-icon>
+    </button>
+    <button mat-button type="button" (click)="mostrarXml(nota)" 
+      *ngIf="nota?.cfdi">
+        <mat-icon>dvr</mat-icon>  Ver XML
+    </button>
+    <button mat-button type="button" (click)="mandarPorCorreo(nota)" 
+      *ngIf="nota?.cfdi">
+        <mat-icon>email</mat-icon>  Email
+    </button>
+    <button mat-button type="button" 
+      (click)="aplicar(nota)" color="accent" *ngIf="nota.disponible">
+        <mat-icon>settings</mat-icon>  Aplicar
+    </button>
+    <button mat-button type="button" 
+      (click)="delete(nota)" color="warn" *ngIf="!nota.cfdi">
+        <mat-icon>delete</mat-icon>  Eliminar
+    </button>
+  </mat-card-actions>
+
+</ng-container>
